@@ -2,6 +2,7 @@ name: Scheduled Build
 on:
   schedule:
     - cron: '*/15 * * * *' # Runs every 5 minutes
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
