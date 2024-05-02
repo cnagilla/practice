@@ -1,4 +1,4 @@
-name: Scheduled Build
+name: Scheduled Build sched_test
 on:
   workflow_dispatch:
 jobs:
