@@ -1,0 +1,11 @@
+name: workflow_dispatch Build
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Date and Time
+        run: |
+          echo "Build Number: ${{ github.run_number }}"
+          echo "Date: $(date '+%Y-%m-%d'), Time: $(date '+%H:%M:%S')"
