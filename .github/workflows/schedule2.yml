@@ -1,7 +1,7 @@
 name: Scheduled Build
 on:
-  # schedule:
-  #   - cron: '*/15 * * * *' # Runs every 5 minutes
+  schedule:
+    - cron: '*/15 * * * *' # Runs every 5 minutes
   workflow_dispatch:
 jobs:
   build:
@@ -11,3 +11,4 @@ jobs:
         run: |
           echo "Build Number: ${{ github.run_number }}"
           echo "Date: $(date '+%Y-%m-%d'), Time: $(date '+%H:%M:%S')"
+          echo "The GitHub actor for this run is $github_actor"
