@@ -1,0 +1,40 @@
+name: Delete Old Workflow Runs
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name'
+        required: true
+
+jobs:
+  delete_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old workflow runs
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.inputs.branch }}
+          CUTOFF_DATE: ${{ github.event.created_at }}
+        run: |
+          # Convert ISO 8601 date to Unix timestamp
+          CUTOFF_UNIX=$(date -d "${CUTOFF_DATE}" +%s)
+
+          # List workflow runs
+          RUNS=$(curl -s -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO/actions/runs")
+
+          # Iterate through runs and delete old ones
+          for id in $(echo $RUNS | jq -r '.workflow_runs[].id'); do
+            # Get creation date of the run
+            CREATION_DATE=$(echo $RUNS | jq -r ".workflow_runs[] | select(.id == \"$id\") | .created_at")
+
+            # Convert creation date to Unix timestamp
+            CREATION_UNIX=$(date -d "${CREATION_DATE}" +%s)
+
+            # Compare creation date with cutoff date
+            if [ $CREATION_UNIX -lt $CUTOFF_UNIX ]; then
+              # Delete the run
+              curl -X DELETE -s -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO/actions/runs/$id"
+            fi
+          done
