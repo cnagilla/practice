@@ -1,0 +1,8 @@
+# Use the lightweight Alpine Linux image
+FROM alpine:latest
+
+# Install curl
+RUN apk add --no-cache curl
+
+# Set the default command to run curl
+CMD ["sleep", "infinity"]

@@ -1,0 +1,17 @@
+FROM alpine:latest
+
+# Update the package lists and install programs
+RUN apk add --no-cache \
+    sudo \
+    iputils \
+    netcat-openbsd \
+    busybox-extras \
+    bind-tools \
+    curl \
+    vim \
+    net-tools \
+    wget \
+    bash-completion
+
+# Add your commands here
+CMD ["sleep", "infinity"]
