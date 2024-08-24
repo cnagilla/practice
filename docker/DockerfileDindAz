@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+# Install Docker
+RUN apt-get update && \
+    apt-get install -y docker.io
+
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+# Keep the container running
+CMD ["sleep", "infinity"]
