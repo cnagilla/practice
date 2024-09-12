@@ -1,0 +1,13 @@
+name: Vars To Env variables
+inputs:
+  parentEnvVariables:
+    description: Variables to be converted to Env values
+    type: string
+    required: true 
+runs:
+  using: composite 
+  steps:
+    - name: Expose parent GitHub Environment variables as shell environment variables
+      uses: infovista-opensource/vars-to-env-action@2.0.0
+      with: 
+        secrets: ${{ inputs.parentEnvVariables }}
